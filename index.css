@@ -12,5 +12,29 @@ body {
 
 .results {
 	margin-top: 20px;
+	padding: 2%;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	align-content: space-around;
+	justify-content: flex-start;
 }
 
+.results .card {
+	margin: auto;
+	text-align: center;
+}
+
+.results h5 {
+	font-weight: 600;
+	letter-spacing: 2px;
+}
+
+.results p {
+	font-weight: 300;
+	letter-spacing: 4px;
+}
+
+.hidden {
+	display: none;
+}
