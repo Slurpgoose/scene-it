@@ -2,25 +2,25 @@ const watch_list = [];
 
 $(document).ready(function() {
     $('.results').append(createMoviePosters())
-    $( "#search-form" ).submit(element => {searchMovie(element)});
-    $('.add').click(function (){saveToWatchlist($(this))})
-    if (localStorage.getItem("watchlist") === null) {
-        localStorage.setItem('watchlist', '[]')
-      }
+    $('.remove').click(function (){saveToWatchlist($(this))})
 });
 
 function createMoviePosters() {
-    let posters = movieData.map(element => {return moviePoster(element)}).join("")
+    var watchlistJSON = localStorage.getItem('watchlist');
+    var watchlist = JSON.parse(watchlistJSON);
+    let posters = watchlist.map(element => {return moviePoster(element)}).join("")
+    console.log(posters)
     return posters
 };
 
-function moviePoster(movie) {
+function moviePoster(id) {
+    movie = movieData.find(function(element){return element.imdbID == id});
     return `
-    <div class="card hidden" style="width: 18rem;" id="${movie.Title}">
+    <div class="card" style="width: 18rem;" id="${movie.imdbID}">
     <img class="card-img-top" src="${movie.Poster}" alt="${movie.Title}">
     <div class="card-body">
       <h5 class="card-title">${movie.Title}</h5><span><p>(${movie.Year})</p></span>
-      <button href="#" id="${movie.imdbID}" class="btn btn-primary add">Add!</button>
+      <button href="#" id="${movie.imdbID}" class="btn btn-primary remove">Remove</button>
     </div>
   </div>`
 };
@@ -48,23 +48,26 @@ function returnMovieResults(search) {
 
 function saveToWatchlist(element) {
     let id = $(element).attr('id')
-    watch_list.push(id);
-    //console.log($(element).attr('id'));
     movie = movieData.find(function(element){return element.imdbID == id});
     var watchlistJSON = localStorage.getItem('watchlist');
     var watchlist = JSON.parse(watchlistJSON);
-    watchlist.push(id);
-    localStorage.setItem('watchlist', JSON.stringify(watchlist.unique()))
-    console.log(watchlist);
+    watchlist =watchlist.remove(id);
+    localStorage.setItem('watchlist', JSON.stringify(watchlist))
+    $(`#${id}`).remove();
 }
 
 
-Array.prototype.unique = function() {
-    var arr = [];
-    for(var i = 0; i < this.length; i++) {
-        if(!arr.includes(this[i])) {
-            arr.push(this[i]);
+Array.prototype.remove = function() {
+    var what, a = arguments, L = a.length, ax;
+    while (L && this.length) {
+        what = a[--L];
+        while ((ax = this.indexOf(what)) !== -1) {
+            this.splice(ax, 1);
         }
     }
-    return arr; 
-}
+    return this;
+};
+
+var ary = ['three', 'seven', 'eleven'];
+
+ary.remove('seven');

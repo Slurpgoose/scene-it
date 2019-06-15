@@ -1,13 +1,13 @@
 body {
-	background-color: #B2E9FD;
+	background-color: rgb(30, 36, 38);
 }
 
 .header h2 {
-	color: #DC4247;
+	color: rgb(91, 24, 159);
 }
 
 .header p {
-	color: #50524F;
+	color: white;
 }
 
 .results {
@@ -16,13 +16,22 @@ body {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
-	align-content: space-around;
-	justify-content: flex-start;
+	align-content: space-between;
+	justify-content: center;
 }
 
 .results .card {
-	margin: auto;
+	margin: 2%;
+	margin-right: 0;
 	text-align: center;
+	border: 2px solid rgba(91, 24, 159, .4);
+	background: black;
+	color: white;
+	border-radius: 5px;
+}
+
+.card-body {
+	border-top: 2px solid rgba(91, 24, 159, .4);
 }
 
 .results h5 {
@@ -37,4 +46,35 @@ body {
 
 .hidden {
 	display: none;
+}
+
+.search-bar {
+	background: RGBA(0,0,0, 0.3);
+}
+
+.search-bar:focus {
+	background: RGBA(0,0,0, 0.9);
+	color: white;
+	border: 1px solid rgba(91, 24, 159, .4);
+}
+
+.btn {
+	background: rgba(91, 24, 159, .4);
+	border: 1px solid black;
+}
+
+.btn:hover {
+	background: rgba(91, 24, 159, .6);
+	border: 1px solid black;
+}
+
+
+.watchlist {
+	padding-top: 5%;
+	color: white !important;
+	text-align: center;
+}
+
+h3 {
+	color: white;
 }
