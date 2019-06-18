@@ -1,7 +1,6 @@
 const watch_list = [];
 
 $(document).ready(function() {
-    $('.results').append(createMoviePosters())
     $( "#search-form" ).submit(element => {searchMovie(element)});
     $('.add').click(function (){saveToWatchlist($(this))})
     if (localStorage.getItem("watchlist") === null) {
@@ -9,8 +8,8 @@ $(document).ready(function() {
       }
 });
 
-function createMoviePosters() {
-    let posters = movieData.map(element => {return moviePoster(element)}).join("")
+function createMoviePosters(data) {
+    let posters = data.map(element => {return moviePoster(element)}).join("")
     return posters
 };
 
@@ -28,8 +27,22 @@ function moviePoster(movie) {
 function searchMovie(event) {
     event.preventDefault();
     search_key = $('.search-bar').val();
-    returnMovieResults(search_key);
+    returnAPIResults(search_key)
+        .then(result => {
+            resultHtml = createMoviePosters(result)
+            $('.results').html(resultHtml);
+        });
 };
+
+var result = '';
+
+function returnAPIResults(search_key) {
+    search_key = encodeURIComponent(search_key);
+    var URL = `http://www.omdbapi.com/?apikey=3430a78&s=${search_key}`;
+    return $.get(URL).then(function( data ) {
+        return data['Search']
+    });
+}
 
 function returnMovieResults(search) {
     const cards = $('.card');
@@ -49,13 +62,11 @@ function returnMovieResults(search) {
 function saveToWatchlist(element) {
     let id = $(element).attr('id')
     watch_list.push(id);
-    //console.log($(element).attr('id'));
     movie = movieData.find(function(element){return element.imdbID == id});
     var watchlistJSON = localStorage.getItem('watchlist');
     var watchlist = JSON.parse(watchlistJSON);
     watchlist.push(id);
     localStorage.setItem('watchlist', JSON.stringify(watchlist.unique()))
-    console.log(watchlist);
 }
 
 

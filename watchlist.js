@@ -9,7 +9,6 @@ function createMoviePosters() {
     var watchlistJSON = localStorage.getItem('watchlist');
     var watchlist = JSON.parse(watchlistJSON);
     let posters = watchlist.map(element => {return moviePoster(element)}).join("")
-    console.log(posters)
     return posters
 };
 
